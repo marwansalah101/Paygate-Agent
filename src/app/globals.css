@@ -1,0 +1,242 @@
+@import "tailwindcss";
+
+/* =========================================================
+   PayGate Design System — AXON-inspired
+   All color tokens live here. Never hardcode a hex value
+   outside this file — reference the CSS variables / Tailwind
+   theme tokens defined below.
+   ========================================================= */
+
+:root {
+  /* Primary */
+  --color-black: #0a0a0a; /* CTA buttons, dark section base */
+  --color-navy-dark: #0b0f14; /* darkest hero/card background */
+
+  /* Accent — signature blue, the only accent color */
+  --color-blue-primary: #2e7df5; /* logo dot, links, icons, active states */
+  --color-blue-tag-bg: #dcebfc; /* pale blue pill/tag backgrounds */
+  --color-blue-tag-text: #2e7df5; /* text inside pale blue tags */
+  --color-blue-highlight: #c7dffb; /* highlighter marker behind headlines */
+  --color-blue-glow-soft: #eef5fe; /* pale radial glow, large-area light section backgrounds */
+  --color-blue-card-deep: #1a56c4; /* 3D payment card body */
+
+  /* Hero — dark gateway gradient (hero section only, rest of the site stays light) */
+  --color-hero-navy-deep: #071a33; /* gradient start, shape shadow faces */
+  --color-hero-navy-mid: #0d2a52; /* mid-depth shape layer */
+  --color-hero-blue-mid: #12428f; /* lit shape face, mid saturation */
+  --color-hero-blue-vivid: #2563eb; /* gradient end, most-lit shape face */
+  --color-hero-blue-bright: #5b8def; /* thin rim/edge highlight */
+  --color-hero-glass-border: rgba(255, 255, 255, 0.14);
+  --color-hero-glass-fill: rgba(255, 255, 255, 0.1);
+  --color-hero-text-muted: rgba(255, 255, 255, 0.7); /* body copy on dark, replaces gray-500 locally */
+  --color-hero-eyebrow: #9aa4b8; /* muted cool-gray eyebrow text on dark hero bg */
+  --color-hero-cta-light: #93a8ea; /* "See Platform" pill fill */
+  --color-hero-cta-light-text: #0c1830; /* text on the light hero pill */
+
+  /* Header — permanently dark floating pill, independent of what's behind it */
+  --color-header-bg: rgba(9, 13, 20, 0.55);
+  --color-header-border: rgba(255, 255, 255, 0.12);
+  --color-header-text: rgba(255, 255, 255, 0.82);
+  --color-header-text-muted: rgba(255, 255, 255, 0.6);
+  --color-header-cta-bg: #f4f2ec; /* header's light "Book a Consultant" pill */
+  --color-header-cta-text: #14161a;
+
+  /* Neutrals */
+  --color-white: #ffffff;
+  --color-gray-50: #f5f7fa; /* light section backgrounds */
+  --color-gray-200: #e5e8ec; /* borders, dividers */
+  --color-gray-500: #6b7280; /* body copy */
+  --color-gray-900: #111318; /* headline text, near-black */
+
+  /* Semantic */
+  --color-badge-popular: #2e7df5;
+  --color-success-check: #2e7df5;
+
+  --font-sans: var(--font-geist), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+  /* Third type tier — "live data" (timers, CR input, inline institution/API names) */
+  --font-live: var(--font-jetbrains-mono), var(--font-mono);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-power2-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@theme inline {
+  --color-black: var(--color-black);
+  --color-navy-dark: var(--color-navy-dark);
+  --color-blue-primary: var(--color-blue-primary);
+  --color-blue-tag-bg: var(--color-blue-tag-bg);
+  --color-blue-tag-text: var(--color-blue-tag-text);
+  --color-blue-highlight: var(--color-blue-highlight);
+  --color-blue-glow-soft: var(--color-blue-glow-soft);
+  --color-blue-card-deep: var(--color-blue-card-deep);
+  --color-hero-navy-deep: var(--color-hero-navy-deep);
+  --color-hero-navy-mid: var(--color-hero-navy-mid);
+  --color-hero-blue-mid: var(--color-hero-blue-mid);
+  --color-hero-blue-vivid: var(--color-hero-blue-vivid);
+  --color-hero-blue-bright: var(--color-hero-blue-bright);
+  --color-hero-glass-border: var(--color-hero-glass-border);
+  --color-hero-glass-fill: var(--color-hero-glass-fill);
+  --color-hero-text-muted: var(--color-hero-text-muted);
+  --color-hero-eyebrow: var(--color-hero-eyebrow);
+  --color-hero-cta-light: var(--color-hero-cta-light);
+  --color-hero-cta-light-text: var(--color-hero-cta-light-text);
+  --color-header-bg: var(--color-header-bg);
+  --color-header-border: var(--color-header-border);
+  --color-header-text: var(--color-header-text);
+  --color-header-text-muted: var(--color-header-text-muted);
+  --color-header-cta-bg: var(--color-header-cta-bg);
+  --color-header-cta-text: var(--color-header-cta-text);
+  --color-white: var(--color-white);
+  --color-gray-50: var(--color-gray-50);
+  --color-gray-200: var(--color-gray-200);
+  --color-gray-500: var(--color-gray-500);
+  --color-gray-900: var(--color-gray-900);
+  --color-badge-popular: var(--color-badge-popular);
+  --color-success-check: var(--color-success-check);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-live: var(--font-live);
+
+  --ease-power2-out: var(--ease-power2-out);
+
+  --animate-marquee: marquee 28s linear infinite;
+  --animate-pulse-glow: pulse-glow 2.4s ease-in-out infinite;
+  --animate-wave-drift-slow: wave-drift 34s linear infinite;
+  --animate-wave-drift-fast: wave-drift 22s linear infinite reverse;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes wave-drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--color-gray-50);
+  color-scheme: light;
+}
+
+/* Transparent so GlobalScene's fixed z-index:-1 canvas (a child of body)
+   isn't painted over by body's own box background — body would otherwise
+   sit in a paint layer above negative-z-index descendants and fully hide
+   it. html's background above is the real fallback color, one layer
+   further down, showing through wherever the canvas has nothing drawn. */
+body {
+  background: transparent;
+  color: var(--color-gray-900);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  letter-spacing: -0.011em;
+}
+
+::selection {
+  background: var(--color-blue-highlight);
+  color: var(--color-gray-900);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-gray-50);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-gray-200);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-blue-primary);
+}
+
+/* Lenis owns scroll smoothing; keep native anchor jumps working without double-smoothing */
+html.lenis {
+  scroll-behavior: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Shared "highlighter marker" headline treatment — a solid pale-blue chip so
+   it stays legible regardless of the surrounding section's background.
+   Callers are responsible for their own foreground text color. */
+.text-highlight {
+  background: var(--color-blue-highlight);
+  border-radius: 0.2em;
+  padding: 0.05em 0.25em;
+  transition: background-color 0.4s var(--ease-out-expo);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Eyebrow label pattern: dash + uppercase blue label */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-blue-primary);
+}
+.eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 1.5rem;
+  height: 1px;
+  background: var(--color-blue-primary);
+}
+
+/* "Live data" mono tier — timers, CR input, inline institution/API names */
+.font-live {
+  font-family: var(--font-live);
+  letter-spacing: -0.01em;
+  font-feature-settings: "tnum" 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
