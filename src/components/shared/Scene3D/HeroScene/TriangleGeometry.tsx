@@ -5,9 +5,13 @@ import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import {
   BOTTOM_TRIANGLES,
+  BOTTOM_TRIANGLES_MOBILE,
   CORNER_TRIANGLES,
+  CORNER_TRIANGLES_MOBILE,
   OUTLINE_TRIANGLE,
+  OUTLINE_TRIANGLE_MOBILE,
   RIBBON,
+  RIBBON_MOBILE,
   type FlatTriangle,
   type PctPoint,
 } from "./heroSceneConfig";
@@ -54,9 +58,13 @@ function TriangleMesh({ shape }: { shape: FlatTriangle }) {
 /** Upper-right corner: the dominant gray triangle plus the dark wedge that
  *  carves its inner edge against the gradient background. */
 export function CornerTriangles() {
+  const { width } = useThree((state) => state.size);
+  const isMobile = width < 768;
+  const shapes = isMobile ? CORNER_TRIANGLES_MOBILE : CORNER_TRIANGLES;
+
   return (
     <>
-      {CORNER_TRIANGLES.map((shape) => (
+      {shapes.map((shape) => (
         <TriangleMesh key={shape.id} shape={shape} />
       ))}
     </>
@@ -65,9 +73,13 @@ export function CornerTriangles() {
 
 /** Bottom-left corner: small white + light-blue pair. */
 export function BottomTriangles() {
+  const { width } = useThree((state) => state.size);
+  const isMobile = width < 768;
+  const shapes = isMobile ? BOTTOM_TRIANGLES_MOBILE : BOTTOM_TRIANGLES;
+
   return (
     <>
-      {BOTTOM_TRIANGLES.map((shape) => (
+      {shapes.map((shape) => (
         <TriangleMesh key={shape.id} shape={shape} />
       ))}
     </>
@@ -78,28 +90,26 @@ export function BottomTriangles() {
  *  filled face, so it's built from a line loop instead of a mesh. */
 export function OutlineTriangle() {
   const { width, height } = useThree((state) => state.size);
+  const isMobile = width < 768;
+  const config = isMobile ? OUTLINE_TRIANGLE_MOBILE : OUTLINE_TRIANGLE;
 
   const geometry = useMemo(() => {
-    const pts = OUTLINE_TRIANGLE.points.map((p) => {
+    const pts = config.points.map((p) => {
       const [x, y] = toWorld(p, width, height);
       return new THREE.Vector3(x, y, 0);
     });
     return new THREE.BufferGeometry().setFromPoints([...pts, pts[0]]);
-  }, [width, height]);
+  }, [width, height, config]);
 
   return (
     <lineLoop
       geometry={geometry}
-      position={[0, 0, -OUTLINE_TRIANGLE.z * Z_SCALE]}
+      position={[0, 0, -config.z * Z_SCALE]}
       renderOrder={1}
       frustumCulled={false}
     >
-      {/* depthTest off: this traces the ribbon's own silhouette, so at equal
-          screen pixels it would otherwise lose the z-test to the ribbon
-          faces beneath it and disappear entirely. It's a highlight line,
-          not occluded geometry — it should always draw on top. */}
       <lineBasicMaterial
-        color={OUTLINE_TRIANGLE.color}
+        color={config.color}
         transparent
         opacity={0.8}
         depthTest={false}
@@ -116,9 +126,11 @@ export function OutlineTriangle() {
  *  rather than hand-listed vertices so the fan is easy to retune. */
 export function RibbonFan() {
   const { width, height } = useThree((state) => state.size);
+  const isMobile = width < 768;
+  const config = isMobile ? RIBBON_MOBILE : RIBBON;
 
   const bands = useMemo(() => {
-    const { bandCount, originX, spanTopY, spanBottomY, apexX, apexY, fanSpread, colors, z } = RIBBON;
+    const { bandCount, originX, spanTopY, spanBottomY, apexX, apexY, fanSpread, colors, z } = config;
     const span = spanBottomY - spanTopY;
 
     return Array.from({ length: bandCount }, (_, i) => {
@@ -139,11 +151,9 @@ export function RibbonFan() {
       geometry.setAttribute("position", new THREE.BufferAttribute(verts, 3));
       geometry.setIndex([0, 1, 2]);
 
-      // Slight per-band z stagger keeps draw order deterministic where
-      // adjacent fan blades overlap near the shared apex.
       return { geometry, color: colors[i % colors.length], z: -(z + i * 0.02) * Z_SCALE };
     });
-  }, [width, height]);
+  }, [width, height, config]);
 
   return (
     <>
@@ -155,3 +165,4 @@ export function RibbonFan() {
     </>
   );
 }
+

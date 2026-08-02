@@ -5,9 +5,6 @@ import { motion, type Variants } from "framer-motion";
 import { HeroScene } from "@/components/shared/Scene3D/HeroScene/HeroScene";
 import { useLenis } from "@/hooks/useLenis";
 
-const HERO_BACKGROUND =
-  "radial-gradient(ellipse 85% 65% at 50% 50%, #1d52ce 0%, #173faa 35%, #0c1e4c 65%, #040916 100%)";
-
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
@@ -55,9 +52,14 @@ export function Hero() {
     <section
       id="top"
       ref={heroRef}
-      className="relative isolate flex min-h-dvh flex-col justify-center overflow-hidden px-5 py-28 sm:px-6 md:px-8 md:pb-28 md:pt-44"
-      style={{ background: HERO_BACKGROUND }}
+      className="relative isolate flex min-h-dvh flex-col justify-center overflow-hidden px-5 py-24 sm:px-6 md:px-8 md:pb-28 md:pt-44"
     >
+      {/* Dynamic background tuned to prevent vertical gradient stretching on mobile portrait screens */}
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_40%,#1d52ce_0%,#173faa_35%,#0c1e4c_65%,#040916_100%)] sm:bg-[radial-gradient(ellipse_85%_65%_at_50%_50%,#1d52ce_0%,#173faa_35%,#0c1e4c_65%,#040916_100%)]"
+      />
+
       {/* 3D background geometry canvas */}
       <HeroScene sectionRef={heroRef} />
 
@@ -113,3 +115,5 @@ export function Hero() {
     </section>
   );
 }
+
+
