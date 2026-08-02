@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUp, Mail, MapPin } from "lucide-react";
+import { ArrowUp, Mail, MapPin, Phone } from "lucide-react";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/Button";
 import { RevealText } from "@/components/shared/RevealText";
@@ -120,6 +120,17 @@ export function Footer() {
                   <Mail size={12} className="shrink-0" />
                   {siteConfig.email}
                 </motion.a>
+                {[siteConfig.usPhone, siteConfig.ksaPhone, siteConfig.egyPhone].map((phone) => (
+                  <motion.a
+                    key={phone}
+                    href={`tel:${phone}`}
+                    whileHover={{ x: 3 }}
+                    className="flex w-fit items-center gap-1.5 text-xs text-[var(--color-gray-500)] transition-colors duration-200 hover:text-[var(--color-gray-900)]"
+                  >
+                    <Phone size={12} className="shrink-0" />
+                    {phone}
+                  </motion.a>
+                ))}
                 <span className="flex items-center gap-1.5 text-xs text-[var(--color-gray-500)]">
                   <MapPin size={12} className="shrink-0" />
                   {siteConfig.location}
