@@ -125,7 +125,7 @@ export function Compare() {
     <section
       id="compare"
       ref={sectionRef}
-      className="relative bg-[#F7F6F0]/88 px-4 py-28 md:px-8 md:py-40"
+      className="relative overflow-x-hidden bg-[#F7F6F0]/88 px-4 py-28 md:px-8 md:py-40"
     >
       <div className="mx-auto flex w-full max-w-6xl flex-col justify-center">
         <RevealText as="div">

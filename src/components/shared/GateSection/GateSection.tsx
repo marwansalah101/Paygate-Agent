@@ -354,7 +354,7 @@ export function GateSection() {
 
       {/* ONBOARDING JOURNEY — regular document flow below the gate, smooth-scrolled by Lenis
           like the rest of the page. Not pinned; each step reveals once as it scrolls into view. */}
-      <section className="relative w-full bg-[#1F1C1B] px-6 py-28 md:py-40">
+      <section className="relative w-full overflow-x-hidden bg-[#1F1C1B] px-6 py-28 md:py-40">
         <RevealText as="div" className="mx-auto max-w-3xl text-center">
           <EyebrowLabel className="text-[#FAFAFA]">Onboarding</EyebrowLabel>
           <h2 className="mt-5 text-5xl font-semibold tracking-tight text-[#FAFAFA] sm:text-6xl md:text-7xl">

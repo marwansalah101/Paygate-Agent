@@ -57,7 +57,7 @@ export function DemoRequest() {
   };
 
   return (
-    <section id="demo" className="relative px-4 pt-28 md:px-8 md:pt-40">
+    <section id="demo" className="relative overflow-x-hidden px-4 pt-28 md:px-8 md:pt-40">
       <div className="relative mx-auto grid max-w-6xl gap-14 pb-28 md:grid-cols-2 md:pb-36">
         <RevealText as="div" x={-56} y={0}>
           <EyebrowLabel>See PayGate in Action</EyebrowLabel>

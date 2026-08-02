@@ -8,6 +8,7 @@ export interface NavLink {
 /** A top-level header nav item that opens a dropdown of sub-links. */
 export interface HeaderNavItem {
   label: string;
+  icon: LucideIcon;
   items: NavLink[];
 }
 
