@@ -12,37 +12,42 @@ export function RevealText({
   as: Tag = "div",
   className,
   delay = 0,
+  x = 0,
   y = 28,
 }: {
   children: ReactNode;
   as?: ElementType;
   className?: string;
   delay?: number;
+  x?: number;
   y?: number;
 }) {
   const ref = useRef<HTMLElement>(null);
 
   useGSAP(
     () => {
-      if (!ref.current) return;
+      const el = ref.current;
+      if (!el) return;
+
       gsap.fromTo(
-        ref.current,
-        { opacity: 0, y },
+        el,
+        { opacity: 0, x, y },
         {
           opacity: 1,
+          x: 0,
           y: 0,
-          duration: 0.9,
+          duration: 0.5,
           delay,
           ease: "power3.out",
           scrollTrigger: {
-            trigger: ref.current,
+            trigger: el,
             start: "top 88%",
             once: true,
           },
         }
       );
     },
-    { scope: ref }
+    { scope: ref, dependencies: [delay, x, y] }
   );
 
   return createElement(Tag, { ref, className }, children);

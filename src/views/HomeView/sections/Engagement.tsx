@@ -38,7 +38,7 @@ export function Engagement() {
   );
 
   return (
-    <section id="engagement" ref={sectionRef} className="relative bg-white/88 px-4 py-28 md:px-8 md:py-40">
+    <section id="engagement" ref={sectionRef} className="relative bg-[#F7F6F0]/88 px-4 py-28 md:px-8 md:py-40">
       <div className="mx-auto max-w-6xl">
         <RevealText as="div">
           <EyebrowLabel>The Engagement Model</EyebrowLabel>
@@ -53,7 +53,7 @@ export function Engagement() {
 
           <div className="flex flex-col gap-16">
             {engagementStages.map((stage, i) => (
-              <RevealText as="div" key={stage.index} delay={i * 0.1} className="relative">
+              <RevealText as="div" key={stage.index} delay={i * 0.1} x={-40} y={0} className="relative">
                 <SectionIndex
                   number={stage.index}
                   className="pointer-events-none absolute -left-10 -top-10 -z-10 md:-left-14"

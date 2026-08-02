@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { EyebrowLabel } from "@/components/ui/EyebrowLabel";
 import { RevealText } from "@/components/shared/RevealText";
@@ -23,6 +24,9 @@ const LEGACY_TOTAL_SECONDS = 15 * 60;
 const NEW_TOTAL_SECONDS = 161; // 2:41, measured end-to-end on the working prototype
 const LEGACY_DURATION = 2; // seconds of real time — the deliberately longer, "grinding" column
 const API_DURATION = 0.6; // seconds of real time — resolves almost immediately
+
+const SECTION_BACKGROUND =
+  "radial-gradient(ellipse 85% 65% at 50% 50%, #173faa 0%, #0c1e4c 45%, #040916 100%)";
 
 function formatMMSS(totalSeconds: number) {
   const s = Math.max(0, Math.round(totalSeconds));
@@ -118,7 +122,11 @@ export function Compare() {
   );
 
   return (
-    <section id="compare" ref={sectionRef} className="relative bg-white/88 px-4 py-28 md:px-8 md:py-40">
+    <section
+      id="compare"
+      ref={sectionRef}
+      className="relative bg-[#F7F6F0]/88 px-4 py-28 md:px-8 md:py-40"
+    >
       <div className="mx-auto flex w-full max-w-6xl flex-col justify-center">
         <RevealText as="div">
           <EyebrowLabel>The Old Way vs. PayGate</EyebrowLabel>
@@ -130,7 +138,12 @@ export function Compare() {
 
         <div className="mt-14 grid gap-10 md:grid-cols-2 md:gap-16">
           {/* Old way */}
-          <div>
+          <motion.div
+            initial={{ opacity: 0, x: -56 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
             <div className="flex items-center justify-between border-b border-[var(--color-gray-200)] pb-4">
               <p className="text-xs font-semibold uppercase tracking-wide text-[var(--color-gray-500)]">
                 Legacy onboarding
@@ -148,29 +161,36 @@ export function Compare() {
               />
               <div className="flex flex-col gap-2">
                 {compareLegacySteps.map((step, i) => (
-                  <div
+                  <motion.div
                     key={step.label}
+                    whileHover={{ x: 3 }}
+                    transition={{ type: "spring", stiffness: 300 }}
                     className={cn(
                       "flex items-center gap-3 rounded-lg border px-4 py-3 text-sm transition-all duration-300 ease-power2-out",
                       i < legacyCount
-                        ? "border-[var(--color-gray-200)] bg-[var(--color-gray-50)] text-[var(--color-gray-900)] opacity-100"
+                        ? "border-[var(--color-gray-200)] bg-white text-[var(--color-gray-900)] opacity-100 shadow-sm"
                         : "border-transparent text-[var(--color-gray-500)]/40 opacity-40"
                     )}
                   >
-                    <span className="font-live w-6 shrink-0 text-xs text-[var(--color-gray-500)]/50">
+                    <span className="font-live w-6 shrink-0 text-xs text-[var(--color-gray-500)]">
                       {(i + 1).toString().padStart(2, "0")}
                     </span>
                     {step.label}
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
             <p className="mt-4 text-xs text-[var(--color-gray-500)]">{compareLegacyLabel}</p>
-          </div>
+          </motion.div>
 
           {/* New way */}
-          <div>
-            <div className="flex items-center justify-between border-b border-[var(--color-blue-primary)]/30 pb-4">
+          <motion.div
+            initial={{ opacity: 0, x: 56 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
+          >
+            <div className="flex items-center justify-between border-b border-[var(--color-blue-primary)]/40 pb-4">
               <p className="text-xs font-semibold uppercase tracking-wide text-[var(--color-blue-primary)]">
                 PayGate
               </p>
@@ -178,15 +198,14 @@ export function Compare() {
                 ref={apiClockRef}
                 className={cn(
                   "font-live text-lg font-semibold transition-colors duration-300 ease-power2-out",
-                  newWayResolved ? "text-highlight" : "text-[var(--color-blue-primary)]"
+                  newWayResolved ? "text-[var(--color-gray-900)]" : "text-[var(--color-blue-primary)]"
                 )}
-                style={newWayResolved ? { color: "var(--color-navy-dark)" } : undefined}
               >
                 0:00
               </span>
             </div>
             <div className="relative mt-4 pl-4">
-              <div className="absolute left-0 top-0 h-full w-[2px] rounded-full bg-[var(--color-blue-primary)]/15" />
+              <div className="absolute left-0 top-0 h-full w-[2px] rounded-full bg-[var(--color-blue-primary)]/20" />
               <div
                 ref={apiBarRef}
                 className="absolute left-0 top-0 h-full w-[2px] origin-top rounded-full bg-[var(--color-blue-primary)]"
@@ -194,25 +213,31 @@ export function Compare() {
               />
               <div className="flex flex-col gap-3">
                 {compareApiNodes.map((node, i) => (
-                  <div
+                  <motion.div
                     key={node.label}
+                    whileHover={{ scale: 1.02, x: 4 }}
+                    transition={{ type: "spring", stiffness: 350, damping: 20 }}
                     className={cn(
                       "flex items-center justify-between rounded-lg border px-4 py-3 text-sm font-semibold transition-all duration-200 ease-power2-out",
                       i < apiCount
-                        ? "border-[var(--color-blue-primary)]/30 bg-[var(--color-blue-tag-bg)]/50 text-[var(--color-gray-900)]"
+                        ? "border-[var(--color-blue-primary)]/40 bg-[var(--color-blue-tag-bg)] text-[var(--color-gray-900)] shadow-sm"
                         : "border-transparent text-[var(--color-gray-500)]/40 opacity-40"
                     )}
                   >
                     <span className="font-live">{node.label}</span>
-                    {i < apiCount && <Check size={16} className="text-[var(--color-blue-primary)]" />}
-                  </div>
+                    {i < apiCount && (
+                      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring" }}>
+                        <Check size={16} className="text-[var(--color-success-check)]" />
+                      </motion.div>
+                    )}
+                  </motion.div>
                 ))}
               </div>
             </div>
             <p className="mt-4 text-xs text-[var(--color-gray-500)]">
               Running in parallel, visible live on screen, while the profile panel fills itself.
             </p>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

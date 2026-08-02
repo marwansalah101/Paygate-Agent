@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useState, type ReactNode } from "react";
 import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -13,19 +13,30 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
   const [lenis, setLenis] = useState<Lenis | null>(null);
   const reducedMotion = useReducedMotion();
 
+  // The browser's native scroll restoration fights with Lenis's own scroll
+  // state across reloads — GSAP's ScrollTrigger then reads whatever position
+  // got restored and renders every pinned animation already mid-progress.
+  // Take manual control before Lenis/ScrollTrigger ever look at scroll position.
+  useLayoutEffect(() => {
+    history.scrollRestoration = "manual";
+    window.scrollTo(0, 0);
+  }, []);
+
   useEffect(() => {
     if (reducedMotion) return;
 
+    // Ultra-smooth Awwwards exponential easing curve & tuned physics.
     const instance = new Lenis({
-      duration: 1.15,
-      easing: (t: number) => 1 - Math.pow(1 - t, 4),
+      duration: 1.2,
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      touchMultiplier: 1.4,
+      touchMultiplier: 2,
     });
 
     instance.on("scroll", ScrollTrigger.update);
 
     const onTick = (time: number) => {
+      // Lenis.raf accepts elapsed time in milliseconds
       instance.raf(time * 1000);
     };
 

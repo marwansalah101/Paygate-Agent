@@ -1,5 +1,5 @@
 import { SectionIndex } from "@/components/ui/SectionIndex";
-import { GlowCard } from "@/components/ui/GlowCard";
+import { SpotlightCard } from "@/components/shared/SpotlightCard";
 import { ProvenanceBadge } from "@/components/ui/ProvenanceBadge";
 import { RevealText } from "@/components/shared/RevealText";
 import { MiniGlassNodes } from "@/components/shared/MiniGlassNodes";
@@ -15,9 +15,9 @@ export function PillarBlock({ pillar }: { pillar: PillarContent }) {
       <SectionIndex number={pillar.index} className="pointer-events-none absolute -top-8 left-0 -z-10 md:-top-14" />
 
       <RevealText as="div">
-        <div className="flex items-center gap-3">
-          <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--color-blue-tag-bg)] text-[var(--color-blue-primary)]">
-            <Icon size={18} />
+        <div className="flex items-center gap-4">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[var(--color-blue-tag-bg)] text-[var(--color-blue-primary)]">
+            <Icon size={20} />
           </span>
           <h3 className="text-3xl font-semibold tracking-tight text-[var(--color-gray-900)] md:text-4xl">
             {pillar.question}
@@ -36,10 +36,15 @@ export function PillarBlock({ pillar }: { pillar: PillarContent }) {
             as="div"
             key={detail.title}
             delay={i * 0.08}
+            x={i % 2 === 0 ? -32 : 32}
+            y={0}
             className={cn("w-full sm:w-[calc(50%-0.75rem)]", i % 2 === 1 && "sm:mt-8")}
           >
-            <GlowCard className="h-full">
-              <h4 className="text-base font-semibold tracking-tight text-[var(--color-gray-900)]">
+            <SpotlightCard className="h-full p-8 shadow-[0_30px_80px_-40px_rgba(46,125,245,0.35)]">
+              <span className="font-live text-xs font-semibold tracking-wide text-[var(--color-blue-primary)]">
+                {(i + 1).toString().padStart(2, "0")} —
+              </span>
+              <h4 className="mt-2 text-base font-semibold tracking-tight text-[var(--color-gray-900)]">
                 {detail.title}
               </h4>
               <p className="mt-2 text-sm leading-relaxed text-[var(--color-gray-500)]">
@@ -48,7 +53,7 @@ export function PillarBlock({ pillar }: { pillar: PillarContent }) {
               {pillar.id === "secure" && i === 0 && (
                 <ProvenanceBadge source="Wathiq" className="mt-4" />
               )}
-            </GlowCard>
+            </SpotlightCard>
           </RevealText>
         ))}
       </div>

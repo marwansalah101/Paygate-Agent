@@ -13,7 +13,7 @@
   --color-navy-dark: #0b0f14; /* darkest hero/card background */
 
   /* Accent — signature blue, the only accent color */
-  --color-blue-primary: #2e7df5; /* logo dot, links, icons, active states */
+  --color-blue-primary: #1E3A5F; /* logo dot, links, icons, active states */
   --color-blue-tag-bg: #dcebfc; /* pale blue pill/tag backgrounds */
   --color-blue-tag-text: #2e7df5; /* text inside pale blue tags */
   --color-blue-highlight: #c7dffb; /* highlighter marker behind headlines */
@@ -43,7 +43,10 @@
 
   /* Neutrals */
   --color-white: #ffffff;
-  --color-gray-50: #f5f7fa; /* light section backgrounds */
+  --color-gray-50: #F7F6F0; /* light section backgrounds (#F7F6F0 offwhite) */
+  --color-offwhite: #F7F6F0;
+  --color-gate-bg: #F5F2EB; /* gate section background */
+  --color-paygate-blue: #1565D8; /* gate primary accent blue */
   --color-gray-200: #e5e8ec; /* borders, dividers */
   --color-gray-500: #6b7280; /* body copy */
   --color-gray-900: #111318; /* headline text, near-black */
@@ -90,6 +93,7 @@
   --color-header-cta-text: var(--color-header-cta-text);
   --color-white: var(--color-white);
   --color-gray-50: var(--color-gray-50);
+  --color-offwhite: var(--color-offwhite);
   --color-gray-200: var(--color-gray-200);
   --color-gray-500: var(--color-gray-500);
   --color-gray-900: var(--color-gray-900);

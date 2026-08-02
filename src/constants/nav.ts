@@ -1,12 +1,4 @@
-import type { HeaderNavItem, NavLink } from "@/types/content";
-
-/** Flat in-page anchors — still used by Footer's link row. */
-export const navLinks: NavLink[] = [
-  { label: "Compare", href: "#compare" },
-  { label: "Pillars", href: "#pillars" },
-  { label: "Trust", href: "#trust" },
-  { label: "Engagement", href: "#engagement" },
-];
+import type { HeaderNavItem } from "@/types/content";
 
 /** Header's top-level dropdown triggers (Platform / Resources / Company). */
 export const headerNav: HeaderNavItem[] = [

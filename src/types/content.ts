@@ -56,3 +56,9 @@ export interface EngagementStage {
   tagline: string;
   details: EngagementDetail[];
 }
+
+export interface SocialLink {
+  label: string;
+  href: string;
+  icon: LucideIcon;
+}

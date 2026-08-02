@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/Input";
 import { TextArea } from "@/components/ui/TextArea";
 import { FormField } from "@/components/ui/FormField";
 import { Button } from "@/components/ui/Button";
-import { Footer } from "@/components/layout/Footer";
 import type { DemoRequestFieldErrors, DemoRequestPayload } from "@/types/demoRequest";
 
 const initialForm: DemoRequestPayload = {
@@ -60,7 +59,7 @@ export function DemoRequest() {
   return (
     <section id="demo" className="relative px-4 pt-28 md:px-8 md:pt-40">
       <div className="relative mx-auto grid max-w-6xl gap-14 pb-28 md:grid-cols-2 md:pb-36">
-        <RevealText as="div">
+        <RevealText as="div" x={-56} y={0}>
           <EyebrowLabel>See PayGate in Action</EyebrowLabel>
           <h2 className="mt-4 text-4xl font-semibold leading-tight tracking-tight text-[var(--color-gray-900)] md:text-5xl">
             Request a <span className="text-[var(--color-blue-primary)]">pilot demo.</span>
@@ -71,7 +70,7 @@ export function DemoRequest() {
           </p>
         </RevealText>
 
-        <RevealText as="div" delay={0.1}>
+        <RevealText as="div" delay={0.1} x={56} y={0}>
           <div className="relative rounded-2xl border border-[var(--color-gray-200)] bg-white p-8 shadow-[0_40px_100px_-40px_rgba(17,19,24,0.25)]">
             <AnimatePresence mode="wait">
               {status === "success" ? (
@@ -81,7 +80,7 @@ export function DemoRequest() {
                   animate={{ opacity: 1, scale: 1 }}
                   className="flex flex-col items-center justify-center gap-4 py-12 text-center"
                 >
-                  <CheckCircle2 size={40} className="text-[var(--color-blue-primary)]" />
+                  <CheckCircle2 size={40} className="text-[var(--color-success-check)]" />
                   <p className="text-lg font-semibold text-[var(--color-gray-900)]">
                     Request received.
                   </p>
@@ -183,8 +182,6 @@ export function DemoRequest() {
           </div>
         </RevealText>
       </div>
-
-      <Footer />
     </section>
   );
 }

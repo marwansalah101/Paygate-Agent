@@ -1,36 +1,45 @@
 "use client";
 
 import { useEffect, useRef, type RefObject } from "react";
+import { useLenis } from "@/hooks/useLenis";
 
 /**
  * 0 while the hero is fully in view, ramping to 1 as it scrolls out of the
  * viewport — drives the background triangles' scroll-exit drift in
- * HeroIdleRig. Same window.scrollY + clamp approach as useHeroHandoff (a
- * ref, not state, since it's read every frame inside useFrame), kept as its
- * own hook because it's keyed to the hero section's own height rather than
- * a fixed viewport-height threshold.
+ * HeroIdleRig. Driven directly off Lenis smooth scroll for frame-accurate sync.
  */
 export function useHeroScrollProgress(sectionRef: RefObject<HTMLElement | null>) {
   const progressRef = useRef(0);
+  const lenis = useLenis();
 
   useEffect(() => {
-    const update = () => {
+    const update = (scrollY: number) => {
       const section = sectionRef.current;
       if (!section) return;
 
       const end = section.offsetHeight * 0.9;
-      const progress = window.scrollY / (end || 1);
+      const progress = scrollY / (end || 1);
       progressRef.current = Math.min(1, Math.max(0, progress));
     };
 
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-    };
-  }, [sectionRef]);
+    if (lenis) {
+      const handleScroll = (e: { scroll: number }) => update(e.scroll);
+      update(lenis.scroll);
+      lenis.on("scroll", handleScroll);
+      return () => {
+        lenis.off("scroll", handleScroll);
+      };
+    } else {
+      const handleNative = () => update(window.scrollY);
+      handleNative();
+      window.addEventListener("scroll", handleNative, { passive: true });
+      window.addEventListener("resize", handleNative, { passive: true });
+      return () => {
+        window.removeEventListener("scroll", handleNative);
+        window.removeEventListener("resize", handleNative);
+      };
+    }
+  }, [sectionRef, lenis]);
 
   return progressRef;
 }

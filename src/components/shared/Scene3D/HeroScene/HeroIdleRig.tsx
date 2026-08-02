@@ -32,10 +32,20 @@ export function HeroIdleRig({
   const groupRef = useRef<THREE.Group>(null);
   const shapesGroupRef = useRef<THREE.Group>(null);
   const parallaxRef = useRef({ x: 0, y: 0 });
+  const smoothScrollRef = useRef(0);
 
   useFrame((state, delta) => {
+    const safeDelta = Math.min(delta, 0.05);
     const t = state.clock.elapsedTime;
-    const scroll = scrollProgressRef.current ?? 0;
+    const targetScroll = scrollProgressRef.current ?? 0;
+
+    // Smoothly lerp scroll to prevent snap/glitch when scrolling rapidly back up
+    smoothScrollRef.current = THREE.MathUtils.lerp(
+      smoothScrollRef.current,
+      targetScroll,
+      safeDelta * 10
+    );
+    const scroll = smoothScrollRef.current;
 
     // Background shapes drift away on scroll
     if (shapesGroupRef.current) {
@@ -49,7 +59,7 @@ export function HeroIdleRig({
 
         shapesGroupRef.current.position.set(floatX, floatY - scroll * 0.8, 0);
         shapesGroupRef.current.rotation.set(0, 0, rotateZ);
-        setGroupOpacity(shapesGroupRef.current, 1 - scroll * 0.85);
+        setGroupOpacity(shapesGroupRef.current, Math.max(0, 1 - scroll * 0.85));
       }
     }
 
@@ -66,12 +76,12 @@ export function HeroIdleRig({
     parallaxRef.current.x = THREE.MathUtils.lerp(
       parallaxRef.current.x,
       pointer.y * POINTER_PARALLAX_MAX,
-      delta * POINTER_PARALLAX_DAMPING
+      safeDelta * POINTER_PARALLAX_DAMPING
     );
     parallaxRef.current.y = THREE.MathUtils.lerp(
       parallaxRef.current.y,
       pointer.x * POINTER_PARALLAX_MAX,
-      delta * POINTER_PARALLAX_DAMPING
+      safeDelta * POINTER_PARALLAX_DAMPING
     );
     group.rotation.x = parallaxRef.current.x;
     group.rotation.y = parallaxRef.current.y;

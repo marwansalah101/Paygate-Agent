@@ -26,7 +26,7 @@ export function HeroScene({ sectionRef }: { sectionRef: RefObject<HTMLElement | 
 
     const observer = new IntersectionObserver(
       ([entry]) => setActive(entry.isIntersecting),
-      { rootMargin: "100px" }
+      { rootMargin: "800px" }
     );
     observer.observe(section);
     return () => observer.disconnect();

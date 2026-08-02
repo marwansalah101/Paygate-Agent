@@ -1,0 +1,9 @@
+
+> paygate-webapp@0.1.0 dev
+> next dev -p 3004
+
+▲ Next.js 16.2.12 (Turbopack)
+- Local:         http://localhost:3004
+- Network:       http://192.168.1.7:3004
+✓ Ready in 3.5s
+[?25h

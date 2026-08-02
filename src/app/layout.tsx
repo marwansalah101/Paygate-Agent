@@ -34,6 +34,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       className={`${geist.variable} ${geistMono.variable} ${jetbrainsMono.variable}`}
     >
+      <head>
+        {process.env.NODE_ENV === "development" ? <script src="http://localhost:8097" /> : null}
+      </head>
       <body>
         <GlobalScene />
         <SmoothScrollProvider>{children}</SmoothScrollProvider>
